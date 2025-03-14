@@ -1,0 +1,5 @@
+name: switchcombat-addons
+version: '1.0-SNAPSHOT'
+main: me.ho3.switchcombat.Main
+api-version: '1.20'
+softdepend: [BedWars1058, OldCombatMechanics]
