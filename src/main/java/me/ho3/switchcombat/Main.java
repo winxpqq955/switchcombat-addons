@@ -2,9 +2,9 @@ package me.ho3.switchcombat;
 
 import com.andrei1058.bedwars.api.BedWars;
 import me.ho3.switchcombat.listeners.ArenaListener;
-import me.ho3.switchcombat.listeners.InventoryListener;
 import me.ho3.switchcombat.listeners.PlayerInteractListener;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -34,14 +34,16 @@ public final class Main extends JavaPlugin {
         }
         bw = registration.getProvider();
         getLogger().info("Hooked into BedWars1058!");
-
-        if (Bukkit.getPluginManager().getPlugin("OldCombatMechanics") == null) {
+        Plugin oldCombatMechanics = Bukkit.getPluginManager().getPlugin("OldCombatMechanics");
+        if (oldCombatMechanics == null) {
             getLogger().severe("找不到老学校战斗插件");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
+        } else {
+            ocm = oldCombatMechanics;
         }
 
-        registerListeners(new ArenaListener(), new InventoryListener(), new PlayerInteractListener());
+        registerListeners(new ArenaListener(), new PlayerInteractListener());
 
     }
 

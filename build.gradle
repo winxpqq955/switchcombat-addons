@@ -16,13 +16,23 @@ repositories {
         url = "https://oss.sonatype.org/content/groups/public/"
     }
     maven {
-        url 'https://repo.andrei1058.dev/releases/'
+        url 'https://repo.xenondevs.xyz/releases'
     }
+    //maven {
+    //    url 'https://repo.andrei1058.dev/releases/'
+    //}
+}
+configurations {
+    extraLibs
+    implementation.extendsFrom extraLibs
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
-    compileOnly('com.andrei1058.bedwars:bedwars-api:25.2')
+    compileOnly(fileTree("libs"))
+
+    extraLibs "xyz.xenondevs.invui:invui:1.45"
+    //compileOnly('com.andrei1058.bedwars:bedwars-api:25.2')
 }
 
 def targetJavaVersion = 17
@@ -50,4 +60,10 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
+}
+
+task fatJar(type: Jar) {
+    exclude "**/module-info.class"
+    from { configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
